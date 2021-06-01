@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
@@ -15,9 +16,10 @@ public class JobPosition {
 	
 	@Id
 	@GeneratedValue
-	@Column(name="id", nullable=false)
+	@Column(name="id")
 	private int id;
 
-	@Column(name="position_name", unique=true)
-	private String positionName;
+	@Column(name="position_name")
+	@NotBlank(message = "İsim alanı boş bırakılamaz.")
+	private String position;
 }

@@ -1,50 +1,40 @@
 package com.onur.HRMSProject.entities.concretes;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode
+@PrimaryKeyJoinColumn(name="user_id")
 @Entity
 @Data
 @Table(name="employers")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employer {
+public class Employer extends User {
 	
-	@Id
-	@Column(name="user_id")
-	private int userId;
-	
+
+	@NotBlank(message = "Şirket ismi alanı boş bırakılamaz.")
 	@Column(name="company_name")
 	private String companyName;
+
+	@NotBlank(message = "Web sitesi alanı boş bırakılamaz.")
+	@Column(name="web_address")
+	private String webAddress;
+
+	@NotBlank(message = "Telefın numarası alanı boş bırakılamaz.")
+	@Column(name="phone_number")
+	private String phoneNumber;
+
+	@JsonIgnore
+	@Column(name="user_confirm")
+	private boolean userConfirm;
 	
-	@Column(name="phone")
-	private String phone;
-	
-	@Column(name="verfied_by_system")
-	private boolean verifiedBySystem;
-	
-	@Column(name="website")
-	private String website;
-	
-	@OneToOne(fetch = FetchType.LAZY)	
-	@JoinColumn(name="user_id")
-	private User user;
-	
-	public Employer(int userId, String companyName, String phone, boolean verifiedBySystem, String website) {
-		this.userId = userId;
-		this.companyName = companyName;
-		this.phone = phone;
-		this.verifiedBySystem = verifiedBySystem;
-		this.website = website;
-	}
+
 
 }
