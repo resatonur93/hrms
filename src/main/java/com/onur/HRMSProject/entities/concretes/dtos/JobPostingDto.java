@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobAdvertisementForAddDto {
+public class JobPostingDto {
    private String jobDescription;
    private Double minSalary;
    private Double maxSalary;

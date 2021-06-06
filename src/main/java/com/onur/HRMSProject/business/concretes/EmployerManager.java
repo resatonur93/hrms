@@ -7,7 +7,6 @@ import com.onur.HRMSProject.business.abstracts.EmployerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onur.HRMSProject.business.abstracts.UserService;
 import com.onur.HRMSProject.core.results.DataResult;
 import com.onur.HRMSProject.core.results.ErrorDataResult;
 import com.onur.HRMSProject.core.results.ErrorResult;
@@ -18,7 +17,6 @@ import com.onur.HRMSProject.dataAcces.abstracts.EmployerDao;
 
 import com.onur.HRMSProject.entities.concretes.Employer;
 import com.onur.HRMSProject.entities.concretes.User;
-import com.onur.HRMSProject.entities.concretes.dtos.EmployerForRegisterDto;
 
 
 @Service

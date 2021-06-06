@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.onur.HRMSProject.business.abstracts.JobAdvertisementService;
 import com.onur.HRMSProject.core.results.DataResult;
 import com.onur.HRMSProject.core.results.Result;
-import com.onur.HRMSProject.entities.concretes.JobAdvertisement;
-import com.onur.HRMSProject.entities.concretes.dtos.JobAdvertisementForAddDto;
+import com.onur.HRMSProject.entities.concretes.JobPosting;
+import com.onur.HRMSProject.entities.concretes.dtos.JobPostingDto;
 
 
 @RestController
@@ -31,15 +31,15 @@ public class JobAdvertisementsController {
 	
 
 	@GetMapping("/getAllActive")
-	public DataResult<List<JobAdvertisement>> getAllActive(){
+	public DataResult<List<JobPosting>> getAllActive(){
 		return this.jobAdvertisementService.findByIsActiveTrue();
 	}
 	@GetMapping("/getAllActiveOrderByDate")
-	public DataResult<List<JobAdvertisement>> getAllActiveOrderDate(){
+	public DataResult<List<JobPosting>> getAllActiveOrderDate(){
 		return this.jobAdvertisementService.findByIsActiveTrueOrderByCreateDate();
 	}
 	@GetMapping("/getAllActiveByEmployer")
-	public DataResult<List<JobAdvertisement>> getAllActiveOrderDate(int employerId){
+	public DataResult<List<JobPosting>> getAllActiveOrderDate(int employerId){
 		return this.jobAdvertisementService.findByEmployer_EmployerId(employerId);
 	}
 	@PutMapping("/changestatus")
@@ -47,7 +47,7 @@ public class JobAdvertisementsController {
 		return this.jobAdvertisementService.changeStatus(jobadvertisementId, employerId);
 	}
 	@PostMapping("/add")
-	public Result addNew(@RequestBody JobAdvertisementForAddDto jobAdvertisement){
+	public Result addNew(@RequestBody JobPostingDto jobAdvertisement){
 		return this.jobAdvertisementService.addNew(jobAdvertisement);
 	}
 	

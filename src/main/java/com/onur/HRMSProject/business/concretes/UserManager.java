@@ -2,7 +2,6 @@ package com.onur.HRMSProject.business.concretes;
 
 import java.util.List;
 
-import com.onur.HRMSProject.business.abstracts.UserService;
 import com.onur.HRMSProject.core.helpers.EmailService;
 import com.onur.HRMSProject.entities.concretes.User;
 import org.springframework.beans.factory.annotation.Autowired;

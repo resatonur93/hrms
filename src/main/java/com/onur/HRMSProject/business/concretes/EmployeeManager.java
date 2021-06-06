@@ -3,21 +3,17 @@ package com.onur.HRMSProject.business.concretes;
 import java.util.List;
 import java.util.UUID;
 
-import com.onur.HRMSProject.business.abstracts.EmployeeService;
 import com.onur.HRMSProject.core.IdentityValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onur.HRMSProject.business.abstracts.UserService;
 import com.onur.HRMSProject.core.results.DataResult;
 import com.onur.HRMSProject.core.results.ErrorResult;
 import com.onur.HRMSProject.core.results.Result;
 import com.onur.HRMSProject.core.results.SuccessDataResult;
 import com.onur.HRMSProject.core.results.SuccessResult;
-import com.onur.HRMSProject.dataAcces.abstracts.EmployeeDao;
-import com.onur.HRMSProject.entities.concretes.Employee;
+import com.onur.HRMSProject.entities.concretes.Candidate;
 import com.onur.HRMSProject.entities.concretes.User;
-import com.onur.HRMSProject.entities.concretes.dtos.EmployeeForRegisterDto;
 
 
 @Service
@@ -34,8 +30,8 @@ public class EmployeeManager implements EmployeeService {
 	}
 
 	@Override
-	public DataResult<List<Employee>> getAll() {
-		return new SuccessDataResult<List<Employee>>(employeeDao.findAll());
+	public DataResult<List<Candidate>> getAll() {
+		return new SuccessDataResult<List<Candidate>>(employeeDao.findAll());
 	}
 
 	@Override
@@ -51,12 +47,12 @@ public class EmployeeManager implements EmployeeService {
 	
 		User userToRegister = new User(employee.getEmail(), employee.getPassword(),false, UUID.randomUUID().toString());
 		userService.add(userToRegister);
-		Employee employeeToRegister = new Employee(userToRegister.getId(), 
+		Candidate candidateToRegister = new Candidate(userToRegister.getId(),
 				employee.getFirstName(),
 				employee.getLastName(), 
 				employee.getNationalityId(),
 				employee.getDateOfBirth());
-		this.employeeDao.save(employeeToRegister);
+		this.employeeDao.save(candidateToRegister);
 		return new SuccessResult("İş arayan kayıdı başarılı. Lütfen e-posta adresinize gönderilen doğrulama linkiyle hesabınızı doğrulayınız.");
 	}
 	

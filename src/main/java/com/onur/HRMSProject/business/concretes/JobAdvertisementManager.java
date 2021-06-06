@@ -7,7 +7,7 @@ import com.onur.HRMSProject.business.abstracts.CityService;
 import com.onur.HRMSProject.business.abstracts.EmployerService;
 import com.onur.HRMSProject.business.abstracts.JobAdvertisementService;
 import com.onur.HRMSProject.business.abstracts.JobPositionService;
-import com.onur.HRMSProject.core.business.BusinessRules;
+import com.onur.HRMSProject.core.Validation.BusinessRules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +16,16 @@ import com.onur.HRMSProject.core.results.ErrorResult;
 import com.onur.HRMSProject.core.results.Result;
 import com.onur.HRMSProject.core.results.SuccessDataResult;
 import com.onur.HRMSProject.core.results.SuccessResult;
-import com.onur.HRMSProject.dataAcces.abstracts.JobAdvertisementDao;
-import com.onur.HRMSProject.entities.concretes.JobAdvertisement;
-import com.onur.HRMSProject.entities.concretes.dtos.JobAdvertisementForAddDto;
+import com.onur.HRMSProject.dataAcces.abstracts.JobPostingDao;
+import com.onur.HRMSProject.entities.concretes.JobPosting;
+import com.onur.HRMSProject.entities.concretes.dtos.JobPostingDto;
 
 
 
 @Service
 public class JobAdvertisementManager implements JobAdvertisementService {
 
-	private JobAdvertisementDao jobAdvertisementDao;
+	private JobPostingDao jobPostingDao;
 	private EmployerService employerService;
 	private JobPositionService jobPositionService;
 	private CityService cityService;
@@ -34,10 +34,10 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	
 
     @Autowired
-	public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao, EmployerService employerService,
-			JobPositionService jobPositionService, CityService cityService) {
+	public JobAdvertisementManager(JobPostingDao jobPostingDao, EmployerService employerService,
+								   JobPositionService jobPositionService, CityService cityService) {
 		super();
-		this.jobAdvertisementDao = jobAdvertisementDao;
+		this.jobPostingDao = jobPostingDao;
 		this.employerService = employerService;
 		this.jobPositionService = jobPositionService;
 		this.cityService = cityService;
@@ -46,28 +46,28 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 
 
 	@Override
-	public DataResult<List<JobAdvertisement>> findByIsActiveTrue() {
-		return new SuccessDataResult<List<JobAdvertisement>>(jobAdvertisementDao.findByIsActiveTrue());
+	public DataResult<List<JobPosting>> findByIsActiveTrue() {
+		return new SuccessDataResult<List<JobPosting>>(jobPostingDao.findByIsActiveTrue());
 	}
 
 
 
 	@Override
-	public DataResult<List<JobAdvertisement>> findByIsActiveTrueOrderByCreateDate() {
-		return new SuccessDataResult<List<JobAdvertisement>>(jobAdvertisementDao.findByIsActiveTrueOrderByCreateDate());
+	public DataResult<List<JobPosting>> findByIsActiveTrueOrderByCreateDate() {
+		return new SuccessDataResult<List<JobPosting>>(jobPostingDao.findByIsActiveTrueOrderByCreateDate());
 	}
 
 
 
 	@Override
-	public DataResult<List<JobAdvertisement>> findByEmployer_EmployerId(int employerId) {
-		return new SuccessDataResult<List<JobAdvertisement>>(jobAdvertisementDao.findByIsActiveTrueAndEmployer_UserId(employerId));
+	public DataResult<List<JobPosting>> findByEmployer_EmployerId(int employerId) {
+		return new SuccessDataResult<List<JobPosting>>(jobPostingDao.findByIsActiveTrueAndEmployer_UserId(employerId));
 	}
 
 
 
 	@Override
-	public Result addNew(JobAdvertisementForAddDto jobAdvertisement) {
+	public Result addNew(JobPostingDto jobAdvertisement) {
 		Result businessRulesResult = BusinessRules.run(
 				isJobPositionValid(jobAdvertisement.getJobPositionId()),
 				isJobDescValid(jobAdvertisement.getJobDescription()),
@@ -84,17 +84,17 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		
 		
 		//Automapper entegrasyonu ile çok daha clean hale getirilebilir.
-		JobAdvertisement jobAdvertisementToAdd = new JobAdvertisement(jobAdvertisement.getJobDescription(), 
+		JobPosting jobPostingToAdd = new JobPosting(jobAdvertisement.getJobDescription(),
 				jobAdvertisement.getMinSalary(), 
 				jobAdvertisement.getMaxSalary(), 
 				jobAdvertisement.getOpenPositionCount(), 
 				jobAdvertisement.getLastApplyDate(), 
 				new Date(), 
 				jobAdvertisement.isActive());
-		jobAdvertisementToAdd.setCity(cityService.getById(jobAdvertisement.getCityId()).getData());
-		jobAdvertisementToAdd.setJobPosition(jobPositionService.getById(jobAdvertisement.getJobPositionId()).getData());
-		jobAdvertisementToAdd.setEmployer(employerService.getById(jobAdvertisement.getEmployerId()).getData());
-		jobAdvertisementDao.save(jobAdvertisementToAdd);
+		jobPostingToAdd.setCity(cityService.getById(jobAdvertisement.getCityId()).getData());
+		jobPostingToAdd.setJobPosition(jobPositionService.getById(jobAdvertisement.getJobPositionId()).getData());
+		jobPostingToAdd.setEmployer(employerService.getById(jobAdvertisement.getEmployerId()).getData());
+		jobPostingDao.save(jobPostingToAdd);
 		
 		return new SuccessResult("İş ilanı başarı ile oluşturuldu.");
 	}
@@ -102,11 +102,11 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 
 	@Override
 	public Result changeStatus(int advertisementId, int employerId) {
-		JobAdvertisement jobAdvertisementToUpdate = jobAdvertisementDao.findByIdAndEmployer_UserId(advertisementId, employerId);
-		if(jobAdvertisementToUpdate==null) return new ErrorResult("Bu kriterlere uyan bir iş ilanı bulamadı. Böyle bir iş ilanı yok veya bu iş ilanı bu şirkete ait değil");
-		jobAdvertisementToUpdate.setActive(!jobAdvertisementToUpdate.isActive());
-		jobAdvertisementDao.save(jobAdvertisementToUpdate);
-		return new SuccessResult("Belirtilen iş ilanı " + (jobAdvertisementToUpdate.isActive() ? "aktif" : "pasif") + " hale getirildi.");
+		JobPosting jobPostingToUpdate = jobPostingDao.findByIdAndEmployer_UserId(advertisementId, employerId);
+		if(jobPostingToUpdate ==null) return new ErrorResult("Bu kriterlere uyan bir iş ilanı bulamadı. Böyle bir iş ilanı yok veya bu iş ilanı bu şirkete ait değil");
+		jobPostingToUpdate.setActive(!jobPostingToUpdate.isActive());
+		jobPostingDao.save(jobPostingToUpdate);
+		return new SuccessResult("Belirtilen iş ilanı " + (jobPostingToUpdate.isActive() ? "aktif" : "pasif") + " hale getirildi.");
 	}
 	
 	private Result isJobPositionValid(int id) {

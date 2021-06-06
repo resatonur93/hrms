@@ -13,7 +13,6 @@ import com.onur.HRMSProject.business.abstracts.EmployerService;
 import com.onur.HRMSProject.core.results.DataResult;
 import com.onur.HRMSProject.core.results.Result;
 import com.onur.HRMSProject.entities.concretes.Employer;
-import com.onur.HRMSProject.entities.concretes.dtos.EmployerForRegisterDto;
 
 @RestController
 @RequestMapping("/api/employers")

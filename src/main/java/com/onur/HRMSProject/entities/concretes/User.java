@@ -1,54 +1,43 @@
 package com.onur.HRMSProject.entities.concretes;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table (name="users")
-@AllArgsConstructor
-@NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
+
 public class User {
 
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
-	
-	@Column(name="email",unique=true)
+
+	@Email(message="Lütfen geçerli mail adresi giriniz.")
+	@NotBlank(message = "Mail alanını boş bırakmayınız.")
+	@Column(name="mail")
 	private String email;
-	
+
+	@NotBlank(message = "Şifre alanını boş bırakmayınız")
+	@Size(min=6,max=16,message = "Şifre en az 6, en fazla 16 karakterden oluşturulabilir.")
 	@Column(name="password")
 	private String password;
 	
-	@Column(name="email_verified")
-	private boolean emailVerified;
-	
-	@Column(name="email_verify_code",nullable=false)
-	private String emailVerifyCode;
+	@NotBlank(message = "Şifre alanını boş bırakılmayınız")
+	@Transient
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private String passwordRepeat;
 
-	public User(String email, String password, boolean emailVerified, String emailVerifyCode) {
-		super();
-		this.email = email;
-		this.password = password;
-		this.emailVerified = emailVerified;
-		this.emailVerifyCode = emailVerifyCode;
-	}
-	
-	
-	
-	
-	
-	
-	
+	@JsonIgnore
+	@Column(name = "verify")
+	private boolean verify = false;
+
+
 }

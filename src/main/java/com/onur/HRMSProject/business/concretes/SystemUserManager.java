@@ -2,11 +2,7 @@ package com.onur.HRMSProject.business.concretes;
 
 import java.util.List;
 
-import com.onur.HRMSProject.business.abstracts.SystemUserService;
 import org.springframework.stereotype.Service;
-
-import com.onur.HRMSProject.dataAcces.abstracts.SystemUserDao;
-import com.onur.HRMSProject.entities.concretes.SystemUser;
 
 @Service
 public class SystemUserManager implements SystemUserService {

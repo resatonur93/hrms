@@ -2,7 +2,6 @@ package com.onur.HRMSProject.api.controllers;
 
 import java.util.List;
 
-import com.onur.HRMSProject.dataAcces.abstracts.EmployeeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.onur.HRMSProject.business.abstracts.EmployeeService;
 import com.onur.HRMSProject.core.results.DataResult;
 import com.onur.HRMSProject.core.results.Result;
-import com.onur.HRMSProject.entities.concretes.Employee;
-import com.onur.HRMSProject.entities.concretes.dtos.EmployeeForRegisterDto;
+import com.onur.HRMSProject.entities.concretes.Candidate;
 
 
 @RestController
@@ -31,7 +28,7 @@ public class EmployeesController {
 	}
 	
 	@GetMapping("/getall")
-	public DataResult<List<Employee>> getAll(){
+	public DataResult<List<Candidate>> getAll(){
 		return employeeService.getAll();
 		
 	}
