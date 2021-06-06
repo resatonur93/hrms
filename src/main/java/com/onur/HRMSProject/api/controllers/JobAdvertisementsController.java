@@ -14,7 +14,7 @@ import com.onur.HRMSProject.business.abstracts.JobAdvertisementService;
 import com.onur.HRMSProject.core.results.DataResult;
 import com.onur.HRMSProject.core.results.Result;
 import com.onur.HRMSProject.entities.concretes.JobPosting;
-import com.onur.HRMSProject.entities.concretes.dtos.JobPostingDto;
+import com.onur.HRMSProject.entities.concretes.dtos.JobPostingAddDto;
 
 
 @RestController
@@ -47,7 +47,7 @@ public class JobAdvertisementsController {
 		return this.jobAdvertisementService.changeStatus(jobadvertisementId, employerId);
 	}
 	@PostMapping("/add")
-	public Result addNew(@RequestBody JobPostingDto jobAdvertisement){
+	public Result addNew(@RequestBody JobPostingAddDto jobAdvertisement){
 		return this.jobAdvertisementService.addNew(jobAdvertisement);
 	}
 	

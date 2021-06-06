@@ -18,7 +18,7 @@ import com.onur.HRMSProject.core.results.SuccessDataResult;
 import com.onur.HRMSProject.core.results.SuccessResult;
 import com.onur.HRMSProject.dataAcces.abstracts.JobPostingDao;
 import com.onur.HRMSProject.entities.concretes.JobPosting;
-import com.onur.HRMSProject.entities.concretes.dtos.JobPostingDto;
+import com.onur.HRMSProject.entities.concretes.dtos.JobPostingAddDto;
 
 
 
@@ -67,7 +67,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 
 
 	@Override
-	public Result addNew(JobPostingDto jobAdvertisement) {
+	public Result addNew(JobPostingAddDto jobAdvertisement) {
 		Result businessRulesResult = BusinessRules.run(
 				isJobPositionValid(jobAdvertisement.getJobPositionId()),
 				isJobDescValid(jobAdvertisement.getJobDescription()),

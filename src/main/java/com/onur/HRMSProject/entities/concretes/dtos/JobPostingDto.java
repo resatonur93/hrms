@@ -1,22 +1,23 @@
 package com.onur.HRMSProject.entities.concretes.dtos;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobPostingDto {
-   private String jobDescription;
-   private Double minSalary;
-   private Double maxSalary;
-   private int openPositionCount;
-   private Date lastApplyDate;
-   private boolean isActive;
-   private int cityId;
-   private int jobPositionId;
-   private int employerId;
+
+    private String employerCompanyName;
+    private String jobPositionPosition;
+    private int openPositionNumber;
+    private Date createdDate;
+    private Date closedDate;
+    private String description;
+
+
 }
